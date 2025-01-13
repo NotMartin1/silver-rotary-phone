@@ -1,5 +1,5 @@
 'use client'
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { questions } from "../../questions";
 
 const page = () => {
@@ -9,10 +9,18 @@ const page = () => {
   const [correctCount, setCorrectCount] = useState<number>(0);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [text, setText] = useState<string>();
+  const [shuffledQuestions, setShuffledQuestions] = useState<string[]>([]);
+  
   const question = questions[currentPage];
 
+  useEffect(() => {
+    setShuffledQuestions(shuffleArray(questions[currentPage].items));
+  }, [currentPage])
+
   const onSubmit = () => {
-    if (selectedAnswer == question.correct)
+    if (selectedAnswer == undefined) return;
+
+    if (shuffledQuestions[selectedAnswer] == question.items[question.correct])
       setCorrectCount(correctCount+1);
     else 
       setText(`Wrong answer. Correct is: ${question.items[question.correct]}`);
@@ -20,10 +28,21 @@ const page = () => {
     setIsSubmitted(true);
   }
 
+  function shuffleArray(array: string[]) {
+    let newArray = [...array];
+    
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[randomIndex]] = [newArray[randomIndex], newArray[i]];
+    }
+    return newArray;
+}
+  
+
   return (
     <>
       <h1>{question.question} ({currentPage + 1}/{questions.length}) {correctCount}</h1>
-      {question.items.map((i, index) => {
+      {shuffledQuestions.map((i, index) => {
         return (
           <div key={index} onClick={() => setSelectedAnswer(index)}>
             <input checked={selectedAnswer == index} type="checkbox" id={`index-${index}`} name={`index-${index}`} />
