@@ -688,7 +688,7 @@ export const questions = [
             'Hardware virtualization',
             'Paravirtualization'
         ],
-        correct: 3,
+        correct: 2,
     },
     {
         question: 'Why do hosts on an Ethernet segment that expirience a collision use a random delay before attemping to transmit a frame',
