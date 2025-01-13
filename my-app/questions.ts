@@ -730,4 +730,24 @@ export const questions = [
         ],
         correct: 1,
     },
+    {
+        question: 'Docker software runs natively on which operating system?',
+        items: [
+            'Docker is OS agnostic',
+            'Linux',
+            'MacOs',
+            'Windows',
+        ],
+        correct: 1,
+    },
+    {
+        question: 'Docker platform was originally designed to run on which operating system?',
+        items: [
+            'Windows',
+            'Docker is OS agnostic',
+            'Linux',
+            'FreeBSD',
+        ],
+        correct: 2,
+    },
 ]

@@ -9,12 +9,13 @@ const page = () => {
   const [correctCount, setCorrectCount] = useState<number>(0);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [text, setText] = useState<string>();
+  const [shuffled, setShuffled] = useState<any[]>(shuffleArray(questions));
   const [shuffledQuestions, setShuffledQuestions] = useState<string[]>([]);
   
-  const question = questions[currentPage];
+  const question = shuffled[currentPage];
 
   useEffect(() => {
-    setShuffledQuestions(shuffleArray(questions[currentPage].items));
+    setShuffledQuestions(shuffleArray(shuffled[currentPage].items));
   }, [currentPage])
 
   const onSubmit = () => {
@@ -28,7 +29,7 @@ const page = () => {
     setIsSubmitted(true);
   }
 
-  function shuffleArray(array: string[]) {
+  function shuffleArray(array: any[]) {
     let newArray = [...array];
     
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -38,6 +39,18 @@ const page = () => {
     return newArray;
 }
   
+
+  if (isSubmitted && currentPage == questions.length - 1)
+    return (
+      <>
+        <span>Score {correctCount / questions.length * 100}</span>
+        <button onClick={() => {
+          setShuffled(shuffleArray(questions));
+          setCurrentPage(0);
+          setIsSubmitted(false);
+        }}>Start again</button>
+      </>
+    )
 
   return (
     <>
